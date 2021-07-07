@@ -1,0 +1,179 @@
+  
+(1) POST (body/raw/JSON) http://localhost:8080/customer
+
+{
+    "firstName": "Bugs",
+    "lastName": "Bunny",
+	"level": "PLATINUM",
+	"address": {
+	"street": "1 wabbit hole lane", 
+	"city": "Kalamazoo", 
+	"state": "Michigan", 
+	"zip": "49006"
+	}    
+}
+
+// in db, level should be 1 (0-based, so "SILVER" is 0, any not in the Enum will give lengthy error message)
+
+(2) //2_Post-Customer-Elmer
+
+{
+    "firstName": "Elmer",
+    "lastName": "Fudd",
+    "level": "PLATINUM",
+    "address": {
+        "street": "123 Hunters Rd.",
+        "city": "Battle Creek",
+        "state": "Michigan",
+        "zip": "49015"
+    }
+}
+
+(3) //3_Post-Customer-Wile
+
+{
+    "firstName": "Wile E.",
+    "lastName": "Coyote",
+    "level": "SILVER",
+    "address": {
+        "street": "2020 Acme Lane",
+        "city": "Portage",
+        "state": "Michigan",
+        "zip": "49002"
+    }
+}
+
+(4) //4_Post-Customer-Tasmanian
+
+{
+    "firstName": "Tasmanian",
+    "lastName": "Devil",
+    "level": "SILVER",
+    "address": {
+        "street": "1010 Circle DR.",
+        "city": "Kalamazoo",
+        "state": "Michigan",
+        "zip": "49005"
+    }
+}
+
+// should be able to see in both customer and address tables
+
+(5) GET (body/raw/JSON) http://localhost:8080/customer
+
+(6) PUT (body/raw/JSON) http://localhost:8080/customer/2
+
+{
+   "firstName": "Elmer",
+    "lastName": "Fudd",
+    "level": "GOLD",
+    "address": {
+        "street": "123 Hunters Rd.",
+        "city": "Battle Creek",
+        "state": "Michigan",
+        "zip": "49015"
+    }
+}
+
+(7) GET (body/raw/JSON) http://localhost:8080/customer/2
+
+// verify right customer before deleting
+
+(8) GET (body/raw/JSON) http://localhost:8080/customer/4
+
+(9) DELETE (body/raw/JSON) http://localhost:8080/customer/4
+
+// validate customer has been delted from database
+
+(10) GET (body/raw/JSON) http://localhost:8080/customer/
+
+// create a line of product
+
+(11) POST (body/raw/JSON) http://localhost:8080/products
+
+{
+    "name": "ACME Boomerang",
+    "description": "ACME boomerangs are guaranteed to always return to its thrower",
+    "price": 19.99
+}
+
+(12)  // POST-Products-Anvils
+
+{
+    "name": "ACME Anvils",
+    "description": "ACME Anvils are not limited to metalsmiths, they also can be dropped on road runner's heads",
+    "price": 49.99
+}
+
+(13)  // POST-Products-Detonator
+
+{
+    "name": "ACME Detonator",
+    "description": "ACME Detonators can be rigged to any explosive device",
+    "price": 9.99
+}
+
+(14)  // POST-Products-FemaleRoadRunnerCostume
+
+{
+    "name": "ACME Female Road Runner Costume",
+    "description": "The ACME Female Road Runner Costume is used by cross dressing animal lovers everywhere",
+    "price": 79.99
+}
+
+(15) // POST-Products-BuckShot
+
+{
+    "name": "ACME Buck Shot",
+    "description": "ACME Buck Shot can be used in any situation where weapons are involved and is so tiny even spiders can use it to catch elusive insects.",
+    "price": 14.75
+}
+
+// Validate all products are showing in inventory...
+
+(16) // GET (body/raw/JSON) http://localhost:8080/products
+
+// Need to change the description on the ACME Boomerangs...
+
+(17) // PUT /products/1
+
+{
+    "name": "ACME Boomerang",
+    "description": "The ACME boomerangs are guaranteed to always return to Wile E. Coyote when he is not looking...",
+    "price": 24.99
+}
+// Validate product before deleting
+
+// No end point set up to allow to be able to GET a specific product
+
+// Remove a product from the database (i.e. inventory)
+
+(17) // DELETE /products/4
+
+// Validate product has been deleted from inventory
+
+(18) // GET (body/raw/JSON) http://localhost:8080/products
+
+// Create some orders
+
+(19) // POST /customer/3/orders -- Wile E. Coyote(3) - Detonator (3) --
+
+[ 3, 3 ]
+
+(20) POST /customer/2/orders -- ElmerFudd (2) -- Anvils (5) --
+
+[ 2, 5 ]
+
+// Elmer meant to order some buckshot...
+
+(21) // PUT /customer/2/orders/1
+
+{ 
+    "status": "CANCELED"
+}
+
+(22) // PUT /customers/2/orders/5
+
+{ 
+    "status": "DELIVERED"
+}
