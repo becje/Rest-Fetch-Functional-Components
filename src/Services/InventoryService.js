@@ -1,3 +1,4 @@
+const INVENTORY_ENDPOINT = 'http://localhost:8080';
 const CUSTOMER_ENDPOINT = 'http://localhost:8080/customer';
 const PRODUCTS_ENDPOINT = 'http://localhost:8080/products';
 
@@ -51,9 +52,9 @@ export const createProducts = async (products) => {
     }
 }
 
-export const updateCustomer = async (_id) => {
+export const updateCustomer = async (customer) => {
     try {
-        const resp = await fetch(CUSTOMER_ENDPOINT + "/" + _id, getFetchOptions("PUT", {text: _id.text }));
+        const resp = await fetch(INVENTORY_ENDPOINT+ "/" + customer._id, getFetchOptions("PUT", {text: _id.text }));
         return resp;
     }
     catch(e) {
@@ -62,9 +63,9 @@ export const updateCustomer = async (_id) => {
     }
 }
 
-export const updateProducts = async (_id) => {
+export const updateProducts = async (products) => {
     try {
-        const resp = await fetch(PRODUCTS_ENDPOINT + "/" + _id, getFetchOptions("PUT", {text: _id.text }));
+        const resp = await fetch(INVENTORY_ENDPOINT + "/" + products._id, getFetchOptions("PUT", {text: _id.text }));
         return resp;
     }
     catch(e) {
@@ -73,9 +74,9 @@ export const updateProducts = async (_id) => {
     }
 }
 
-export const deleteCustomer = async (_id) => {
+export const deleteCustomer = async (customer) => {
     try {
-        const resp = await fetch(CUSTOMER_ENDPOINT + "/" + _id, { method: "DELETE"})
+        const resp = await fetch(CUSTOMER_ENDPOINT + "/" + customer._id, { method: "DELETE"})
         return resp;
     }
     catch(e) {
@@ -84,9 +85,9 @@ export const deleteCustomer = async (_id) => {
     }
 }
 
-export const deleteProducts = async (_id) => {
+export const deleteProducts = async (products) => {
     try {
-        const resp = await fetch(PRODUCTS_ENDPOINT + "/" + _id, { method: "DELETE"})
+        const resp = await fetch(PRODUCTS_ENDPOINT + "/" + products_id, { method: "DELETE"})
         return resp;
     }
     catch(e) {

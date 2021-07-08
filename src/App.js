@@ -1,7 +1,18 @@
 import React, { useEffect, useState } from 'react'
 import CustomerList from './Components/CustomerList'
 import ProductsList from './Components/ProductsList'
-import { getCustomer, getProducts, updateCustomer, updateProducts, deleteCustomer, deleteProducts } from './Services/InventoryService';
+import { 
+  getCustomer, 
+  getProducts, 
+  updateCustomer, 
+  updateProducts, 
+  deleteCustomer, 
+  deleteProducts, 
+  createCustomer, 
+  createProducts 
+} from './Services/InventoryService';
+
+let tempId;
 
 export default function App() {
 
@@ -38,18 +49,53 @@ const handleCustomerDelete = async (customer) => {
   await deleteCustomer(customer);
   refreshCustomer();
 }
+
 /*** Delete Products ***/
 const handleProductsDelete = async (products) => {
   await deleteProducts(products);
   refreshProducts();
 }
-  //Create & Update
 
+/*** Customer Create & Update ***/
+const handleCustomerEditStart = (customer) => {
+  if(customer === null) {
+    tempId = Math.random();
+  }
+  setEditCustomer(customer);
+  setIsCustomerFormModalOpen(true);
+}
 
-  //Modal??
+const handleEditSave = async (customerData) => {
+  if (editCustomer)
+    await updateCustomer({...editCustomer, text: customerData.text })
+  else
+    await createCustomer(customerData);
+  await refreshCustomer();
+  handleCloseCustomerFormModal();
+}
 
+/*** Customer Create & Update ***/
+const handleProductsEditStart = (products) => {
+  if(products === null) {
+    tempId = Math.random();
+  }
+  setEditProducts(products);
+  setIsProductsFormModalOpen(true);
+}
 
-  //Render
+const handleEditSave = async (productsData) => {
+  if (editProducts)
+    await updateProducts({...editProducts, text: productsData.text })
+  else
+    await createProducts(productsData);
+  await refreshProducts();
+  handleCloseProductsFormModal();
+}
+/*** Close Customer & Products Modal ***/
+const handleCloseCustomerFormModal = () => setIsCustomerFormModalOpen(false);
+const handleCloseProductsFormModal = () => setIsProductsFormModalOpen(false);
+
+/*** Render ***/
   return (
     <React.Fragment>
       <div className="container mt-3">
